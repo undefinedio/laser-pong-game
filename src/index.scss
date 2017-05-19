@@ -1,0 +1,62 @@
+body {
+  background-color: white;
+}
+
+$green: #2cff00;
+$padding: 10px;
+
+html,
+body,
+#root {
+  margin: 0;
+  font-family: 'alteHaas', sans-serif;
+  font-weight: normal;
+  height: 100%;
+  color: $green;
+  background: $green;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.line {
+  position: fixed;
+  left: 50%;
+  height: 100%;
+  top: $padding;
+  bottom: $padding;
+  transform: translate(0, -1px);
+  width: 0;
+  border: dashed 2px $green;
+  background: white;
+  z-index: 2;
+  content: '';
+  opacity: 0;
+  transition: all .5s linear;
+  transition-delay: .5s;
+
+  &.show {
+    opacity: 1;
+  }
+}
+
+body:after {
+  position: fixed;
+  top: $padding;
+  bottom: $padding;
+  left: $padding;
+  right: $padding;
+  z-index: 1;
+  background: white;
+  content: '';
+}
+
+canvas {
+  position: absolute;
+  top: $padding;
+  bottom: $padding;
+  left: $padding;
+  right: $padding;
+  z-index: 5;
+  max-width: calc(100% - 20px) !important;
+  max-height: calc(100% - 20px) !important;
+}
