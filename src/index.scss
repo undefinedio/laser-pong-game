@@ -50,7 +50,7 @@ body:after {
   content: '';
 }
 
-canvas {
+canvas#game {
   position: absolute;
   top: $padding;
   bottom: $padding;
@@ -59,4 +59,19 @@ canvas {
   z-index: 5;
   max-width: calc(100% - 20px) !important;
   max-height: calc(100% - 20px) !important;
+}
+
+.tracking-frame {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 300px;
+  width: 440px;
+  display: block;
+  z-index: 999;
+  background-color: #ffffff;
+
+  canvas, video {
+    position: absolute;
+  }
 }

@@ -70,7 +70,7 @@ class Pong extends Phaser.State {
     this.game.physics.arcade.overlap(this.ballSprite, this.paddleGroup, this.collideWithPaddle, null, this);
 
     if (this.ballSprite.body.blocked.up || this.ballSprite.body.blocked.down || this.ballSprite.body.blocked.left || this.ballSprite.body.blocked.right) {
-      this.sndBallBounce.play();
+      // this.sndBallBounce.play();
       this.reverseBall();
     }
   }
@@ -98,6 +98,8 @@ class Pong extends Phaser.State {
   }
 
   preload() {
+    this.game.canvas.id = 'game';
+
     this.game.load.image(this.graphicAssets.ballName, this.graphicAssets.ballURL);
     this.game.load.image(this.graphicAssets.paddleName, this.graphicAssets.paddleURL);
 
@@ -242,7 +244,7 @@ class Pong extends Phaser.State {
 
   collideWithPaddle(ball, paddle) {
     this.gameProperties.ballVelocity += this.gameProperties.ballVelocityIncrease;
-    this.sndBallHit.play();
+    // this.sndBallHit.play();
 
     let returnAngle;
     let segmentHit = Math.floor((ball.y - paddle.y) / this.gameProperties.paddleSegmentHeight);
@@ -272,7 +274,7 @@ class Pong extends Phaser.State {
   }
 
   ballOutOfBounds() {
-    this.sndBallMissed.play();
+    // this.sndBallMissed.play();
     this.gameProperties.ballVelocity = this.gameProperties.ballVelocityStart;
 
     if (this.ballSprite.x < 0) {
