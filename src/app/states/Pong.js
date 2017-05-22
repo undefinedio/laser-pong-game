@@ -11,7 +11,7 @@ class Pong extends Phaser.State {
 
     this.gameProperties = {
       debug: false,
-      demo: true,
+      demo: false,
       intro: true,
 
       ballVelocity: 1000,
@@ -40,6 +40,14 @@ class Pong extends Phaser.State {
 
       paddleURL: 'app/images/paddle.png',
       paddleName: 'paddle'
+    };
+
+    this.fontAssets = {
+      scoreLeft_x: this.game.world.width * 0.25,
+      scoreRight_x: this.game.world.width * 0.75,
+      scoreTop_y: 10,
+
+      scoreFontStyle: {font: '80px Arial', fill: '#FFFFFF', align: 'center'},
     };
 
     this.soundAssets = {
@@ -126,6 +134,12 @@ class Pong extends Phaser.State {
     this.ballSprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, this.graphicAssets.ballName);
     this.ballSprite.anchor.set(0.5, 0.5);
     // this.ballSprite.animations.add('run');
+
+    this.tf_scoreLeft = this.game.add.text(this.fontAssets.scoreLeft_x, this.fontAssets.scoreTop_y, "0", this.fontAssets.scoreFontStyle);
+    this.tf_scoreLeft.anchor.set(0.5, 0);
+
+    this.tf_scoreRight = this.game.add.text(this.fontAssets.scoreRight_x, this.fontAssets.scoreTop_y, "0", this.fontAssets.scoreFontStyle);
+    this.tf_scoreRight.anchor.set(0.5, 0);
   }
 
   initPhysics() {
@@ -180,9 +194,9 @@ class Pong extends Phaser.State {
     this.ballSprite.visible = false;
     this.game.time.events.add(Phaser.Timer.SECOND * this.gameProperties.ballStartDelay, this.startBall, this);
 
-    if (this.scoreLeft + this.scoreRight >= 1) {
-      this.game.state.start('Pong', true, false);
-    }
+    // if (this.scoreLeft + this.scoreRight >= 1) {
+    //   this.game.state.start('Pong', true, false);
+    // }
   }
 
   enableElements(enabled) {
@@ -202,36 +216,41 @@ class Pong extends Phaser.State {
   }
 
   moveRightPaddle() {
-    if (!this.paddleRightSprite.moved) {
-      if (this.paddleRightSprite.body.top > this.ballSprite.body.center.y) {
-        this.paddleRightSprite.body.velocity.y = -this.gameProperties.paddleVelocity;
-      } else if (this.paddleRightSprite.body.bottom < this.ballSprite.body.center.y) {
-        this.paddleRightSprite.body.velocity.y = this.gameProperties.paddleVelocity;
-      }
+    let value = global.RIGHTBAT_Y << 2;
 
-      if (this.paddleRightSprite.body.y < this.gameProperties.paddleTopGap) {
-        this.paddleRightSprite.body.y = this.gameProperties.paddleTopGap;
-      }
+    if (value === 0) {
+      this.paddleRightSprite.body.velocity.y = 0;
 
-      this.paddleRightSprite.moved = true;
+    } else if ((this.paddleRightSprite.body.position.y > value) && value !== 0) {
+      this.paddleRightSprite.body.velocity.y = -this.gameProperties.paddleVelocity;
 
-      setTimeout(() => {
-        this.paddleRightSprite.moved = false;
-      }, 100);
+    } else if (((this.paddleRightSprite.body.position.y + this.paddleRightSprite.body.height) < value) && value !== 0) {
+      this.paddleRightSprite.body.velocity.y = this.gameProperties.paddleVelocity;
+
+    } else {
+      this.paddleRightSprite.body.velocity.y = 0;
+    }
+
+    if (this.paddleRightSprite.body.y < this.gameProperties.paddleTopGap) {
+      this.paddleRightSprite.body.y = this.gameProperties.paddleTopGap;
+      this.paddleRightSprite.body.y = this.gameProperties.paddleTopGap;
     }
   }
 
   moveLeftPaddle() {
-    let value = global.MOUSE_Y * 2;
+    const value = global.LEFTBAT_Y << 2;
 
-    if (this.gameProperties.demo) {
-      value = this.ballSprite.body.position.y;
-    }
+    console.log(value);
 
-    if (this.paddleLeftSprite.body.position.y > value) {
+    if (value === 0) {
+      this.paddleLeftSprite.body.velocity.y = 0;
+
+    } else if ((this.paddleLeftSprite.body.position.y > value) && value !== 0) {
       this.paddleLeftSprite.body.velocity.y = -this.gameProperties.paddleVelocity;
-    } else if ((this.paddleLeftSprite.body.position.y + this.paddleLeftSprite.body.height) < value) {
+
+    } else if (((this.paddleLeftSprite.body.position.y + this.paddleLeftSprite.body.height) < value) && value !== 0) {
       this.paddleLeftSprite.body.velocity.y = this.gameProperties.paddleVelocity;
+
     } else {
       this.paddleLeftSprite.body.velocity.y = 0;
     }
@@ -291,6 +310,12 @@ class Pong extends Phaser.State {
   resetScores() {
     this.scoreLeft = 0;
     this.scoreRight = 0;
+    this.updateScoreTextFields();
+  }
+
+  updateScoreTextFields() {
+    this.tf_scoreLeft.text = this.scoreLeft;
+    this.tf_scoreRight.text = this.scoreRight;
   }
 
   reverseBall() {

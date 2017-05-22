@@ -1,0 +1,34 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Camera Debug Window</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <link rel="icon" type="image/png" href="http://fountainjs.io/assets/imgs/fountain.png"/>
+  <script type="text/javascript"
+          src="https://cdnjs.cloudflare.com/ajax/libs/tracking.js/1.1.3/tracking-min.js"></script>
+</head>
+<body>
+<!--[if lt IE 10]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please
+  <a href="http://browsehappy.com/">upgrade your browser</a>
+  to improve your experience.
+</p>
+<![endif]-->
+
+<div class="tracking-frame">
+  <div class="tracking-container">
+    <div class="select">
+      <label for="videoSource">Video source: </label><select id="videoSource"></select>
+    </div>
+
+    <div class="draw-frame">
+      <video id="tracking-video" width="440" height="330" preload autoplay loop muted></video>
+      <canvas id="tracking-canvas" width="440" height="330"></canvas>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

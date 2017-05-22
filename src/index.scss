@@ -1,9 +1,11 @@
-body {
-  background-color: white;
-}
+$bgc : white;
 
-$green: #2cff00;
+$green: blue;
 $padding: 10px;
+
+body {
+  background-color: $green;
+}
 
 html,
 body,
@@ -27,7 +29,7 @@ body,
   transform: translate(0, -1px);
   width: 0;
   border: dashed 2px $green;
-  background: white;
+  background: $bgc;
   z-index: 2;
   content: '';
   opacity: 0;
@@ -46,7 +48,7 @@ body:after {
   left: $padding;
   right: $padding;
   z-index: 1;
-  background: white;
+  background: $bgc;
   content: '';
 }
 
@@ -62,16 +64,16 @@ canvas#game {
 }
 
 .tracking-frame {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 300px;
+  position: relative;
+  margin: auto;
   width: 440px;
   display: block;
   z-index: 999;
-  background-color: #ffffff;
+  background-color: $bgc;
+  //opacity: 0;
 
   canvas, video {
     position: absolute;
+    width: 100%;
   }
 }

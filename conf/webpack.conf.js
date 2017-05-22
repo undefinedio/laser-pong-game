@@ -50,7 +50,14 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
     FailPlugin,
     new HtmlWebpackPlugin({
-      template: conf.path.src('index.html')
+      filename: 'index.html',
+      template: conf.path.src('index.html'),
+      chunks: ['index']
+    }),
+    new HtmlWebpackPlugin({  // Also generate a test.html
+      filename: 'camera.html',
+      template: conf.path.src('camera.html'),
+      chunks: ['camera']
     }),
     new webpack.LoaderOptionsPlugin({
       options: {
@@ -62,7 +69,10 @@ module.exports = {
   devtool: 'source-map',
   output: {
     path: path.join(process.cwd(), conf.paths.tmp),
-    filename: 'index.js'
+    filename: '[name].js'
   },
-  entry: `./${conf.path.src('index')}`
+  entry: {
+    index: [`./${conf.path.src('index')}`],
+    camera: [`./${conf.path.src('camera')}`],
+  }
 };
